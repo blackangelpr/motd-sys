@@ -22,34 +22,34 @@ VERSION="v1.0.0"
 
 # === Installation phase ===
 if [[ "$0" != "$INSTALL_PATH" ]]; then
-  echo "🔧 Installing MOTD script system-wide..."
+    echo "🔧 Installing MOTD script system-wide..."
 
-  sudo cp "$0" "$INSTALL_PATH"
-  sudo chmod +x "$INSTALL_PATH"
-  echo "✅ Script copied to $INSTALL_PATH"
+    sudo cp "$0" "$INSTALL_PATH"
+    sudo chmod +x "$INSTALL_PATH"
+    echo "✅ Script copied to $INSTALL_PATH"
 
-  if ! grep -q "alias $ALIAS_NAME=" "$HOME/.bashrc"; then
-    echo "alias $ALIAS_NAME='bash $INSTALL_PATH'" >> "$HOME/.bashrc"
-    echo "✅ Alias added: $ALIAS_NAME"
-  else
-    echo "⚠️  Alias '$ALIAS_NAME' already exists in .bashrc"
-  fi
+    if ! grep -q "alias $ALIAS_NAME=" "$HOME/.bashrc"; then
+        echo "alias $ALIAS_NAME='bash $INSTALL_PATH'" >> "$HOME/.bashrc"
+        echo "✅ Alias added: $ALIAS_NAME"
+    else
+        echo "⚠️  Alias '$ALIAS_NAME' already exists in .bashrc"
+    fi
 
-  echo "#!/bin/bash" | sudo tee "$PROFILE_HOOK" > /dev/null
-  echo "bash $INSTALL_PATH" | sudo tee -a "$PROFILE_HOOK" > /dev/null
-  sudo chmod +x "$PROFILE_HOOK"
-  echo "✅ Login hook set: $PROFILE_HOOK"
+    echo "#!/bin/bash" | sudo tee "$PROFILE_HOOK" > /dev/null
+    echo "bash $INSTALL_PATH" | sudo tee -a "$PROFILE_HOOK" > /dev/null
+    sudo chmod +x "$PROFILE_HOOK"
+    echo "✅ Login hook set: $PROFILE_HOOK"
 
-  if [ -d /etc/update-motd.d ]; then
-    echo "🧹 Disabling default Ubuntu MOTD scripts..."
-    sudo chmod -x /etc/update-motd.d/* &>/dev/null
-  fi
+    if [ -d /etc/update-motd.d ]; then
+        echo "🧹 Disabling default Ubuntu MOTD scripts..."
+        sudo chmod -x /etc/update-motd.d/* &>/dev/null
+    fi
 
-  echo ""
-  echo "🎉 MOTD installed globally! You can now type: sys"
-  echo "💡 To activate the alias now, run: source ~/.bashrc"
-  echo ""
-  exit 0
+    echo ""
+    echo "🎉 MOTD installed globally! You can now type: sys"
+    echo "💡 To activate the alias now, run: source ~/.bashrc"
+    echo ""
+    exit 0
 fi
 
 # === Display phase ===
